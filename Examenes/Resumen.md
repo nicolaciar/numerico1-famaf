@@ -1,0 +1,209 @@
+# 5. Integración numérica
+
+Sea desea estimar aproximadamente el valor de
+
+$$
+\int_a^bf(x)\,dx
+$$
+
+Mediante métodos básicos, conocidos como **cuadratura numérica** y tienen la forma
+
+$$
+\sum_{i=0}^na_if(x_i)
+$$
+
+Dichos métodos se basan en interpolación numérica, por lo tanto las fórmulas de cuadratura numérica están dadas por
+
+$$
+\int_a^bf(x)\,dx\approx \sum_{i=0}^na_if(x_i)
+$$
+
+con un error de integración numérica dado por
+
+$$
+E_n(f)=\frac{1}{(n+1)!}\int_a^bf^{(n+1)}(\xi_x)\prod_{i=0}^n(x-x_i)\,dx
+$$
+
+## Regas Simples
+
+**Regla del trapecio**
+
+$$
+\int_a^bf(x)\,dx\approx\frac{(a+b)}{2}[f(a)+f(b)]=\frac{h}{2}[f(a)+f(b)]
+$$
+
+$$
+E_T=\frac{-(b-a)^3}{12}f''(\xi)=-\frac{h^3}{12}f''(\xi)
+$$
+---
+
+**Regla de Simpson**
+
+$$
+\begin{align*}
+\int_a^bf(x)\,dx&\approx\frac{h}{3}[f(a)+4f(a+h)+f(a+2h)]\\
+&=\frac{(b-a)}{6}\left[f(a)+4f\left(\frac{a+b}{2}\right)+f(b)\right]
+\end{align*}
+$$
+
+$$
+E_S=-\frac{h^5}{90}f^{(4)}(\xi)=-\frac{((b-a)/2)^5}{90}f^{(4)}(\xi)
+$$
+
+---
+
+**Regla del Rectángulo**
+
+$$
+\int_a^bf(x)\,dx\approx f(a)(b-a)
+$$
+
+$$
+E_R=\frac{(b-1)^2}{2}f'(\xi)
+$$
+
+---
+
+**Regla del Punto Medio**
+
+$$
+\int_a^bf(x)\,dx\approx f\left(\frac{a+b}{2}\right)(b-a)
+$$
+
+$$
+E_{PM}=\frac{(b-a)^3}{24}f''(\xi)
+$$
+
+---
+
+### Grado de exactitud
+
+La **precisión** o **grado de exactitud** de una fórmula o regla de cuadratura es el mayor entero no negativo $n$ tal que la fórmula de integración es exacta para $x^k$, para todo $k=0,\dots,n$
+
+$$
+\begin{array}{|r|r|}
+\textbf{Regla de cuadraduta} & \textbf{Precisión}\\
+\hline\text{Rectángulo} & 0\\
+\text{Trapecio} & 1\\
+\text{Punto medio} & 1\\
+\text{Simpson} & 3
+\end{array}
+$$
+
+---
+
+## Reglas compuestas
+
+Se basan en particionar el intervalo de integración y usar las reglas simples ya vistas.
+
+---
+
+**Regla compuesta de Simpson**
+
+$$
+\int_a^bf(x)\,dx\approx\frac{h}{3}\left\{f(x_0)+2\sum_{j=1}^nf(x_{2j})+4\sum_{j=1}f(x_{2j-1})+f(x_n)\right\}
+$$
+
+$$
+E_S=-\frac{(b-a)}{180}h^4f^{(4)}(\mu)
+$$
+
+---
+
+**Regla compuesta del Trapecio**
+
+$$
+\int_a^bf(x)\,dx\approx\frac{h}{2}\left\{f(a)+\sum_{j=1}^nf(x_j)+f(b)\right\}
+$$
+
+$$
+E_T=-\frac{(b-a)}{12}h^2f''(\mu)
+$$
+
+---
+
+**Regla compuesta del Rectángulo**
+
+$$
+\int_a^bf(x)\,dx\approx h\sum_{j=0}^{n+1}f(x_j)
+$$
+
+$$
+E_{R}=\frac{(b-a)}{2}hf'(\mu)
+$$
+
+---
+
+**Regla compuesta del Punto Medio**
+
+$$
+\int_a^bf(x)\,dx\approx2h\sum_{j=0}^{n/2}f(x_{2j})
+$$
+
+$$
+E_{PM}=\frac{(b-a)}{6}h^2f''(\mu)
+$$
+
+
+
+## Reglas Gaussianas
+
+Las fórmulas de cuadratura simples y compuestas que tienen la forma:
+
+$$\tag{1}
+ \int_a^bf(x)\,dx\approx \sum_{i=0}^na_if(x_i)
+$$
+
+son exactas para polinomios de grado $\leq n$, es decir los **nodos** $x_0,x_1,\dots,x_n$ **son conocidos a priori** y los coeficientes $a_0,a_1,\dots,a_n$ se determinan unívocamente de manera que $(1)$ sea una igualdad para ciertos polinomios.
+
+Las **reglas gaussianas** permiten seleccionar convenientemente los nodos, además de los coeficientes, de manera óptima en esl sentido que la regla de integración sea exacta para polinomios del grado más alto posible (precisión).
+
+Es decir se deberán determinar los $(n+1)$ nodos $x_0,x_1,\dots,x_n$ y los $(n+1)$ coeficientes $a_0,\dots,a_n$ de manera que la regla con función de peso
+
+$$
+\int_a^bw(x)f(x)\,dx\approx\sum_{i=0}^na_if(x_i)
+$$
+
+sea exacta para polinomio de grado $\leq 2n+1$.
+
+---
+
+**Teorema 1**
+
+Sea $w$ una función de peso positiva definida en $[a,b]$ y $q$ un polinomio no nulo de grado exactamente $(n+1)$ que es ortogonal a todo polinomio $p$ de grado $\leq n$ (con respecto a $w$), es decir:
+
+$$
+\int_a^bq(x)p(x)w(x)\,dx=0
+$$
+
+Si $x_0,x_1,\dots,x_n$ son las $(n+1)$ raíces de $q$, entonces la fórmula 
+
+$$
+\int_a^bf(x)w(x)\approx \sum_{i=0}^na_uf(x_i)
+$$
+
+con
+
+$$
+a_i=\int_a^bw(x)\prod_{j=0,\,j\neq i}^n\frac{x-x_j}{x_i-x_j}\,dx
+$$
+
+será exacta para todo polinomio $f$ de grado $\leq2n+1$.
+
+---
+
+**Observación**
+
+Si la función de peso que se utiliza en el intervalo $[-1,1]$ es $w(x)=1$ se obtienen los polinomio de Legendre:
+
+$$
+\begin{align*}
+p_0(x)&= 1\\
+p_1(x)&=x\\
+p_2(x)&=x^2-\frac{1}{3}\\
+p_3(x)&=x^3-\frac{3}{5}x\\
+p_4(x)&=x^4-\frac{6}{7}x^2+\frac{3}{35}
+\end{align*}
+$$
+
+---

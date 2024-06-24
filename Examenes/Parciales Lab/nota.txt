@@ -1,0 +1,7 @@
+Pueden usar todas las librerías que se han utilizado hasta ahora:
+
+    math
+    random
+    matplotlib
+
+No es necesario utilizar la función input()
